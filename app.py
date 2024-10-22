@@ -1,1 +1,1 @@
-echo "print('Hello from Kubernetes!')" > app.py
+echo "print('Hello fm Kubernetes!')" > app.py
