@@ -1,32 +1,29 @@
 pipeline {
     agent any
-
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/20BQ1A0458/python-app.git'
+                git 'https://github.com/20BQ1A0458/my-docker-app.git'
             }
         }
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t jaison24/python-app .'
+                    docker.build("bhargavram458/my-docker-app")
                 }
             }
         }
-        stage('Push Docker Image') {
+        stage('Push to Docker Hub') {
             steps {
                 script {
-                    withDockerRegistry([ credentialsId: 'dockerhub-creds', url: '' ]) {
-                        sh 'docker push jaison24/python-app'
-                    }
+                    docker.image("bhargavram458/my-docker-app").push()
                 }
             }
         }
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    sh 'kubectl apply -f k8s-deployment.yaml'
+                    kubectl.apply "-f k8s-deployment.yaml"
                 }
             }
         }
